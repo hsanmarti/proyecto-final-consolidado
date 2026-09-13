@@ -1,0 +1,9 @@
+target/
+.datos-pg/
+.idea/
+.vscode/
+*.iml
+*.log
+.env
+application-local.properties
+application-local.yml
