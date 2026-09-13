@@ -1,0 +1,150 @@
+token                                                                                                
+-----                                                                                                
+PS C:\prueba\springboot-sii-2026\proyecto-final\base> curl.exe -i "http://localhost:8107/consolidados/12345678-9?desde=2026-01-01&hasta=2026-09-12"
+WWW-Authenticate: Bearer resource_metadata="http://localhost:8107/.well-known/oauth-protected-resource"
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 0
+Date: Sun, 13 Sep 2026 00:43:51 GMT
+
+PS C:\prueba\springboot-sii-2026\proyecto-final\base> $body = @{
+>>     usuario = "luis"          
+>>     clave = "dgt2026"        
+>> } | ConvertTo-Json
+PS C:\prueba\springboot-sii-2026\proyecto-final\base> $token = $respuesta.token
+
+PS C:\prueba\springboot-sii-2026\proyecto-final\base> curl.exe -i `            
+>>   -H "Authorization: Bearer $token" `
+>>   "http://localhost:8107/consolidados/12345678-9?desde=2026-01-01&hasta=2026-09-12"
+HTTP/1.1 401         
+WWW-Authenticate: Bearer error="invalid_token", error_description="Bearer token is malformed", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1", resource_metadata="http://localhost:8107/.well-k
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 0
+Date: Sun, 13 Sep 2026 00:52:18 GMT
+
+PS C:\prueba\springboot-sii-2026\proyecto-final\base> $body = @{
+>>     usuario = "luis"                    
+>>     clave = "dgt2026"                  
+PS C:\prueba\springboot-sii-2026\proyecto-final\base> $respuesta = Invoke-RestMethod `
+>>     -Uri "http://localhost:8107/auth/login" `
+>>     -Method Post `
+>>     -ContentType "application/json" `
+>>     -Body $body
+PS C:\prueba\springboot-sii-2026\proyecto-final\base> $tokenFiscalizador = $respuesta.token
+PS C:\prueba\springboot-sii-2026\proyecto-final\base> $token = $respuesta.token
+PS C:\prueba\springboot-sii-2026\proyecto-final\base> $body = @{
+>>     usuario = "ana"          
+>>     clave = "dgt2026"        
+>> } | ConvertTo-Json
+PS C:\prueba\springboot-sii-2026\proyecto-final\base> $respuesta = Invoke-RestMethod `
+>>     -Uri "http://localhost:8107/auth/login" `
+>>     -Method Post `
+>>     -ContentType "application/json" `
+>>     -Body $body
+PS C:\prueba\springboot-sii-2026\proyecto-final\base> $token = $respuesta.token            
+PS C:\prueba\springboot-sii-2026\proyecto-final\base> Invoke-RestMethod `
+>>     -Uri "http://localhost:8107/auth/login" `
+>>     -Method Post `                   
+>>     -ContentType "application/json" `
+>>     -Body $body
+
+token                                                                                                 
+-----                                                                                                 
+eyJraWQiOiI5ZHUzd2JRZnJYcU1DOXpSRUU4NzM4Q250cWhTWS01TnN2MXVtZHN6T0VZIiwidHlwIjoiSldUIiwiYWxnIjoiSFM...
+
+
+PS C:\prueba\springboot-sii-2026\proyecto-final\base>  $respuesta.token
+eyJraWQiOiI5ZHUzd2JRZnJYcU1DOXpSRUU4NzM4Q250cWhTWS01TnN2MXVtZHN6T0VZIiwidHlwIjoiSldUIiwiYWxnIjoiSFMyNTYifQ.eyJpc3MiOiJkZ3QiLCJzdWIiOiJhbmEiLCJleHAiOjE3ODkyNzYyNzgsImlhdCI6MTc4OTI2MTg3OCwic2NvcGUiOiJST0xFX0ZJU0NBTElaQURPUiJ9.-H0Hwb64ERJTh4OkP6MC_PCHAZD1L8hJ-ZJxhcTpc-o
+PS C:\prueba\springboot-sii-2026\proyecto-final\base> curl.exe -i `
+>>   -H "Authorization: Bearer eyJraWQiOiI5ZHUzd2JRZnJYcU1DOXpSRUU4NzM4Q250cWhTWS01TnN2MXVtZHN6T0VZIiwidHlwIjoiSldUIiwiYWxnIjoiSFMyNTYifQ.eyJpc3MiOiJkZ3QiLCJzdWIiOiJhbmEiLCJleHAiOjE3ODkyNzYyNzgsImlhdCI6MTc4OTI2MTg3OCwic2NvcGUiOiJST0xFX0ZJU0NBTElaQURPUiJ9.-H0Hwb64ERJTh4OkP6MC_PCHAZD1L8hJ-ZJxhcTpc-o " `
+>>   "http://localhost:8107/consolidados/12345678-9?desde=2026-01-01&hasta=2026-09-12"
+WWW-Authenticate: Bearer error="insufficient_scope", error_description="The request requires higher privileges than provided by the access token.", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+X-Content-Type-Options: nosniff
+Pragma: no-cache
+Expires: 0
+Content-Length: 0
+Date: Sun, 13 Sep 2026 01:14:21 GMT
+
+PS C:\prueba\springboot-sii-2026\proyecto-final\base> $body = @{
+>>     usuario = "ana"          
+>>     clave = "dgt2026"        
+>> } | ConvertTo-Json
+PS C:\prueba\springboot-sii-2026\proyecto-final\base> $respuesta = Invoke-RestMethod `
+>>     -Uri "http://localhost:8107/auth/login" `
+>>     -Method Post `
+>>     -ContentType "application/json" `
+>>     -Body $body
+PS C:\prueba\springboot-sii-2026\proyecto-final\base> $token = $respuesta.token
+
+
+PS C:\prueba\springboot-sii-2026\proyecto-final\base> curl.exe -i "http://localhost:8107/consolidados/12345678-9?desde=2026-01-01&hasta=2026-09-12"
+HTTP/1.1 401 
+WWW-Authenticate: Bearer resource_metadata="http://localhost:8107/.well-known/oauth-protected-resource"X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 0
+Date: Sun, 13 Sep 2026 01:57:27 GMT
+
+
+PS C:\prueba\springboot-sii-2026\proyecto-final\base> curl.exe -i `
+>>   -H "Authorization: Bearer $token" `
+>>   "http://localhost:8107/consolidados/12345678-9?desde=2026-01-01&hasta=2026-09-12"
+HTTP/1.1 403 
+WWW-Authenticate: Bearer error="insufficient_scope", error_description="The request requires higher privileges than provided by the access token.", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 0
+Date: Sun, 13 Sep 2026 02:05:00 GMT
+
+
+
+PS C:\prueba\springboot-sii-2026\proyecto-final\base> curl.exe -i `
+>>   -H "Authorization: Bearer $token" `
+>>   "http://localhost:8107/consolidados/12345678-9?desde=2026-01-01&hasta=2026-09-12"
+HTTP/1.1 404 
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Sun, 13 Sep 2026 01:58:24 GMT
+
+{"mensaje":"No existe el contribuyente 12345678-9"}
+
+
+PS C:\prueba\springboot-sii-2026\proyecto-final\base> curl.exe -i `
+>>   -H "Authorization: Bearer $token" `
+>>   "http://localhost:8107/consolidados/76.111.111-1?desde=2026-01-01&hasta=2026-09-12"
+HTTP/1.1 200 
+Content-Disposition: inline;filename=f.txt
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Content-Length: 500
+Date: Sun, 13 Sep 2026 01:41:45 GMT
+
+{"rut":"76.111.111-1","razonSocial":"Comercial Andes Ltda.","desde":"2026-01-01","hasta":"2026-09-12","tramites":[{"id":1,"tipo":"F29","estado":"PAGADO","fecha":"2026-01-15","montoDeclarado":1200000.00},{"id":2,"tipo":"F29","estado":"PAGADO","fecha":"2026-02-15","montoDeclarado":950000.00},{"id":3,"tipo":"F22","estado":"PENDIENTE","fecha":"2026-03-10","montoDeclarado":3400000.00},{"id":4,"tipo":"F29","estado":"PAGADO","fecha":"2026-04-15","montoDeclarado":780000.00}],"totalDeclarado":6330000.00}
+PS C:\prueba\springboot-sii-2026\proyecto-final\base> 
